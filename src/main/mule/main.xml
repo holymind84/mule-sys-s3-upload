@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:s3="http://www.mulesoft.org/schema/mule/s3" xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/s3 http://www.mulesoft.org/schema/mule/s3/current/mule-s3.xsd">
+	<flow name="my-sys-s3Flow" doc:id="e7d705de-8ab7-4910-99d0-16f7c7d7eabb">
+		<file:listener doc:name="On New or Updated File" doc:id="14148198-0a2f-41a5-a5b1-189e2b430440" directory="${file.dir}" recursive="false" overwrite="true" moveToDirectory="${file.backup}">
+			<scheduling-strategy >
+				<fixed-frequency frequency="5000"/>
+			</scheduling-strategy>
+		</file:listener>
+		<logger level="INFO" doc:name="Logger" doc:id="d0306b96-ddf5-45c5-92e8-83847b3a0962" message='#[output application/json&#10;---&#10;{&#10;	&#10;	message: "File received - " ++  (attributes.fileName default "")&#10;}]'/>
+		<s3:put-object doc:name="Put Object" doc:id="47f69ee4-15bb-4953-8f3f-2ca7fbc18cbe" config-ref="Amazon_S3_Configuration" bucketName="${aws.s3.bucket}" key="#[attributes.fileName]" contentLength="#[attributes.size]"/>
+		<logger level="INFO" doc:name="Logger" doc:id="bbdbb6d6-b7f8-4bfb-8552-d6d4b9509e3f" message='#[output application/json&#10;---&#10;{&#10;	&#10;	message: "File Uploaded",&#10;	body: payload&#10;}]'/>
+	</flow>
+</mule>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:secure-properties="http://www.mulesoft.org/schema/mule/secure-properties" xmlns:s3="http://www.mulesoft.org/schema/mule/s3"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/s3 http://www.mulesoft.org/schema/mule/s3/current/mule-s3.xsd
+http://www.mulesoft.org/schema/mule/secure-properties http://www.mulesoft.org/schema/mule/secure-properties/current/mule-secure-properties.xsd">
+	<s3:config name="Amazon_S3_Configuration" doc:name="Amazon S3 Configuration" doc:id="45155e3a-28b4-4ae2-8b35-8d56e6c1438e" >
+		<s3:connection accessKey="${aws.credential.access}" secretKey="${secure::aws.credential.secret}" region="${aws.credential.region}"/>
+	</s3:config>
+	<secure-properties:config name="Secure_Properties_Config" doc:name="Secure Properties Config" doc:id="2ee35ef8-4a07-41ec-8221-da60d82e7bb3" file="dev.yaml" key="${encrypt.key}">
+		<secure-properties:encrypt algorithm="Blowfish" />
+	</secure-properties:config>
+	<global-property doc:name="Global Property" doc:id="801dcdae-dd5c-40c3-bbd3-2790e4074b68" name="encrypt.key" value="PassSegreta1234!" />
+	<configuration-properties doc:name="Configuration properties" doc:id="30aeeb1b-0419-46f5-aa75-144f6669ac67" file="dev.yaml" />
+</mule>

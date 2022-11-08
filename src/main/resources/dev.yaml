@@ -1,0 +1,15 @@
+aws:
+  credential:
+    access: "AKIA6HZREQ2U4TRSDYV2"
+    secret: "![8FGOruXFFvajrI1LqA6GE2bJHSJPN/ROoIkcGl+s/pBytkq3Rc8a88Hr8345u0AZ]"
+    region: "eu-central-1"
+
+  
+  s3:
+    bucket: "nagpur-bucket"
+
+file:
+  dir: "C:/temp/nagpur/p1-inbound/"
+  backup: "C:/temp/nagpur/p1-inbound/backup"
+  
+
